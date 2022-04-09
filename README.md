@@ -1,38 +1,18 @@
 # que-web [![Build Status](https://travis-ci.org/statianzo/que-web.svg?branch=master)](https://travis-ci.org/statianzo/que-web)
 
-que-web is a web UI to the [Que](https://github.com/chanks/que) job queue.
+A web UI for the [Que](https://github.com/chanks/que) job queue.
 
 ![Que Web](https://raw.githubusercontent.com/statianzo/que-web/master/doc/queweb.png)
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Run:
 
-```ruby
-gem 'que-web'
-```
+    $ bundle add que-web
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Or:
 
     $ gem install que-web
-
-## Usage
-
-#### With `config.ru`
-
-Add in `config.ru`:
-
-```ruby
-require "que/web"
-
-map "/que" do
-  run Que::Web
-end
-```
 
 ### Rails
 
@@ -46,10 +26,12 @@ mount Que::Web => "/que"
 ### Authentication
 
 #### Devise
+
 ```ruby
 # config/routes.rb
-authenticate :user do
-  mount Que::Web, at: 'que'
+
+authenticate :user, ->(u) { u.admin? } do
+  mount Que::Web, at: '/que'
 end
 ```
 
@@ -62,6 +44,18 @@ Que::Web.use(Rack::Auth::Basic) do |user, password|
 end
 ```
 Then add the two environment variables to your production environment.
+
+### Usage with `config.ru`
+
+Add in `config.ru`:
+
+```ruby
+require "que/web"
+
+map "/que" do
+  run Que::Web
+end
+```
 
 ### Docker
 
