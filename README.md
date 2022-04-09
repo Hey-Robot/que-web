@@ -20,7 +20,7 @@ In `config/routes.rb`:
 
 ```ruby
 require "que/web"
-mount Que::Web => "/que"
+mount Que::Web, at: "/que"
 ```
 
 ### Authentication
